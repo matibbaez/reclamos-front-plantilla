@@ -1,0 +1,204 @@
+/* =========================================
+   SISTEMA DE DISEÑO - MARCA BLANCA (PLANTILLA)
+   ========================================= */
+:root {
+  /* --- PALETA DINÁMICA (Esto es lo único que cambiás por cliente) --- */
+  
+  /* COLOR 1: Identidad Corporativa (NavBar, Títulos, Botones Serios) */
+  --brand-primary: #0f172a;       /* Ejemplo actual: Slate 900 */
+  --brand-primary-hover: #1e293b; 
+  
+  /* COLOR 2: Llamada a la acción (Botones de "Iniciar", Alertas, Detalles) */
+  /* Puede ser un color plano o un degradado */
+  --brand-accent: linear-gradient(90deg, #ff3131, #ff914d); 
+  --brand-accent-hover: linear-gradient(90deg, #d92727, #d97c3f);
+
+  /* --- SISTEMA BASE (Colores funcionales que casi nunca se tocan) --- */
+  --color-exito: #059669;          /* Emerald */
+  --color-error: #ef4444;          /* Red */
+  --color-advertencia: #f59e0b;    /* Amber */
+  --color-info: #3b82f6;           /* Blue */
+
+  /* --- UI & FONDOS --- */
+  --ui-bg: #f8fafc;                /* Fondo general */
+  --ui-card: #ffffff;              /* Fondo tarjetas */
+  --ui-border: #e2e8f0;            /* Bordes suaves */
+  
+  /* --- TEXTOS --- */
+  --text-main: #334155;            /* Texto principal */
+  --text-muted: #64748b;           /* Texto secundario */
+
+  /* --- TIPOGRAFÍA & FORMAS --- */
+  --font-main: 'Outfit', sans-serif;
+  --radius-md: 12px;               /* Borde redondeado estándar */
+  --shadow-card: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* =========================================
+   RESET & BASE
+   ========================================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  font-family: var(--font-main);
+  background-color: var(--ui-bg);
+  color: var(--text-main);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  color: var(--brand-primary); /* ¡Toma el color de la marca! */
+  line-height: 1.2;
+}
+
+p {
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  outline: none;
+}
+
+/* =========================================
+   SCROLLBAR (Adaptable a la marca)
+   ========================================= */
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--brand-primary) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; 
+  margin: 4px 0;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+  transition: background-color 0.3s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--brand-primary); /* Se pinta del color de la marca */
+}
+
+/* =========================================
+   CLASES DE UTILIDAD & BOTONES
+   ========================================= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  text-align: center;
+  white-space: nowrap;
+
+  /* 1. PRIMARIO: Usa el color principal de la marca */
+  &.btn-primary {
+    background: var(--brand-primary);
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Sombra genérica */
+    
+    &:hover { 
+      background: var(--brand-primary-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  /* 2. SECUNDARIO: Fondo blanco con borde del color de marca */
+  &.btn-secondary {
+    background-color: var(--ui-card);
+    color: var(--brand-primary);
+    border: 1px solid var(--ui-border);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    
+    &:hover { 
+      border-color: var(--brand-primary);
+      background-color: var(--ui-bg);
+      transform: translateY(-1px);
+    }
+  }
+
+  /* 3. WARNING / ACCIÓN: Usa el color de acento (Call to Action) */
+  &.btn-warning {
+    background: var(--brand-accent);
+    color: white;
+    /* Usamos una sombra sutil porque el color puede variar */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+
+    &:hover {
+      background: var(--brand-accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  /* 4. BLANCO: Texto del color de acento */
+  &.btn-white {
+    background-color: white;
+    color: var(--brand-primary); /* Ojo: suele quedar mejor con el primario que con el acento en degradado */
+    font-weight: 800;
+    
+    &:hover {
+      background-color: #fffbeb;
+      transform: translateY(-2px);
+    }
+  }
+
+  /* Estado deshabilitado */
+  &:disabled, &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+    background-color: var(--ui-border) !important;
+    color: var(--text-muted) !important;
+    border-color: transparent !important;
+  }
+}
+
+/* =========================================
+   LENIS (Smooth Scroll)
+   ========================================= */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+.lenis.lenis-scrolling iframe { pointer-events: none; }

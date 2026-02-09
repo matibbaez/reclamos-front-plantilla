@@ -1,0 +1,128 @@
+:host {
+  display: block;
+  position: fixed; /* FLOTA SOBRE EL CONTENIDO */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.navbar {
+  /* ESTADO POR DEFECTO (SÓLIDO) */
+  background-color: var(--brand-primary);
+  height: 70px;
+  display: flex;
+  align-items: center;
+  transition: all 0.4s ease-in-out; /* Transición suave */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px); /* Efecto vidrio si tiene opacidad */
+
+  /* ESTADO TRANSPARENTE (Solo en el tope del Home) */
+  &.transparent {
+    background-color: transparent;
+    box-shadow: none;
+    padding-top: 10px; /* Un detallito: se hace más alto cuando está arriba */
+    padding-bottom: 10px;
+  }
+}
+
+.navbar-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+
+/* --- LOGO --- */
+.navbar-brand {
+  text-decoration: none; display: flex; align-items: center; cursor: pointer;
+  
+  .brand-text {
+    font-family: var(--font-main);
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: white; /* Siempre blanco porque el fondo es oscuro o transparente sobre oscuro */
+    letter-spacing: -0.5px;
+    text-transform: uppercase;
+    transition: opacity 0.2s;
+    white-space: nowrap;
+  }
+  &:hover .brand-text { opacity: 0.9; }
+}
+
+/* --- LINKS --- */
+.navbar-links-desktop {
+  display: flex; align-items: center; gap: 2.5rem;
+
+  a {
+    color: rgba(255, 255, 255, 0.85); /* Un poco más brillante para que se lea sobre foto */
+    text-decoration: none;
+    font-size: 0.95rem; font-weight: 500;
+    transition: all 0.3s ease; position: relative; padding: 0.5rem 0;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra suave para leer mejor sobre fotos */
+
+    &::after {
+      content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px;
+      background-color: var(--brand-accent);
+      transform: scaleX(0); transform-origin: right;
+      transition: transform 0.3s ease;
+    }
+
+    &:hover { color: white; &::after { transform: scaleX(1); transform-origin: left; } }
+    
+    &.active {
+      color: white; font-weight: 700;
+      &::after { transform: scaleX(1); }
+    }
+  }
+}
+
+/* --- MÓVIL (Hamburguesa) --- */
+.mobile-menu-button {
+  display: none; background: none; border: none; cursor: pointer;
+  width: 30px; height: 24px; position: relative; padding: 0; z-index: 1001;
+
+  span {
+    display: block; position: absolute; height: 2px; width: 100%;
+    background-color: white; border-radius: 4px; left: 0; transition: all 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3); /* Sombra para contraste */
+    &:nth-child(1) { top: 0; }
+    &:nth-child(2) { top: 11px; }
+    &:nth-child(3) { top: 22px; }
+  }
+}
+
+.navbar.menu-abierto .mobile-menu-button span {
+  background-color: white; box-shadow: none;
+  &:nth-child(1) { transform: translateY(11px) rotate(45deg); }
+  &:nth-child(2) { opacity: 0; }
+  &:nth-child(3) { transform: translateY(-11px) rotate(-45deg); }
+}
+
+/* --- DROPDOWN MÓVIL --- */
+.mobile-menu-dropdown {
+  display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100vh;
+  background-color: var(--brand-primary); /* Fondo sólido siempre en móvil al abrir */
+  padding-top: 80px; /* Espacio para no tapar el logo */
+  flex-direction: column; align-items: center; gap: 1rem;
+  opacity: 0; transform: translateY(-20px); pointer-events: none;
+  transition: all 0.3s ease;
+
+  &.abierto { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+  a {
+    display: block; padding: 1rem 2rem; width: 100%; text-align: center;
+    color: white; font-size: 1.2rem; text-decoration: none;
+    &:hover { background-color: rgba(255,255,255,0.05); }
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-links-desktop { display: none; }
+  .mobile-menu-button { display: block; }
+  .mobile-menu-dropdown { display: flex; } /* Cambiado a flex para centrar items */
+}

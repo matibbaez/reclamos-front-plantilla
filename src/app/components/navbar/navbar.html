@@ -1,0 +1,28 @@
+<nav class="navbar" [class.menu-abierto]="menuAbierto" [class.transparent]="!isScrolled">
+  
+  <div class="navbar-container">
+    
+    <a class="navbar-brand" routerLink="/" (click)="cerrarMenu()">
+      <span class="brand-text">{{ brand.nombre }}</span>
+    </a>
+    
+    <div class="navbar-links-desktop">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Inicio</a>
+      <a routerLink="/iniciar-reclamo" routerLinkActive="active">Iniciar Reclamo</a>
+      <a routerLink="/consultar-tramite" routerLinkActive="active">Consultar</a>
+    </div>
+
+    <button class="mobile-menu-button" (click)="toggleMenu()" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+  </div>
+
+  <div class="mobile-menu-dropdown" [class.abierto]="menuAbierto">
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="cerrarMenu()">Inicio</a>
+    <a routerLink="/iniciar-reclamo" routerLinkActive="active" (click)="cerrarMenu()">Iniciar Reclamo</a>
+    <a routerLink="/consultar-tramite" routerLinkActive="active" (click)="cerrarMenu()">Consultar Estado</a>
+  </div>
+</nav>

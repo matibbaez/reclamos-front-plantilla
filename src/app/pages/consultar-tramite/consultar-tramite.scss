@@ -1,0 +1,199 @@
+/* =========================================
+   CONFIGURACIÓN GENERAL
+   ========================================= */
+.page-container {
+  /* Ancho más contenido para que se vea como ticket sin bordes extraños */
+  max-width: 600px; 
+  margin: 4rem auto;
+  padding: 0 1.5rem;
+}
+
+/* Link Volver */
+.back-link {
+  display: inline-flex; align-items: center; gap: 0.8rem;
+  color: #64748b; text-decoration: none; font-size: 0.95rem; font-weight: 500;
+  margin-bottom: 2rem; transition: all 0.2s;
+  
+  .icon-back {
+    width: 32px; height: 32px; border-radius: 50%; background-color: white;
+    border: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s; svg { color: #64748b; }
+  }
+
+  &:hover {
+    color: var(--color-primario);
+    .icon-back { background-color: var(--color-primario); border-color: var(--color-primario); svg { color: white; } }
+  }
+}
+
+/* =========================================
+   ESTADO 1: BÚSQUEDA
+   ========================================= */
+.search-header {
+  text-align: center; margin-bottom: 2.5rem;
+  h2 { font-size: 1.8rem; font-weight: 800; color: var(--color-primario); margin-bottom: 0.5rem; }
+  p { color: #64748b; font-size: 1.1rem; }
+}
+
+.form-field { margin-bottom: 1.5rem; }
+
+.input-wrapper-hero {
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  border-radius: 50px; background: white;
+  border: 1px solid #e2e8f0;
+
+  &:focus-within { box-shadow: 0 8px 30px rgba(37, 99, 235, 0.15); border-color: #cbd5e1; }
+
+  .search-icon {
+    position: absolute; left: 20px; top: 50%; transform: translateY(-50%);
+    color: var(--color-primario); svg { width: 24px; height: 24px; }
+  }
+  
+  input {
+    width: 100%; padding: 1.2rem 1.5rem 1.2rem 3.5rem;
+    border: none; border-radius: 50px;
+    font-size: 1.2rem; outline: none; background: transparent;
+    color: var(--color-texto-principal);
+    &::placeholder { color: #94a3b8; font-weight: 400; }
+  }
+}
+
+.error-msg { color: #dc2626; font-size: 0.9rem; margin-top: 0.8rem; padding-left: 1.5rem; font-weight: 500; }
+
+.btn-hero {
+  width: 100%; padding: 1.2rem; font-size: 1.1rem; border-radius: 50px;
+  background: var(--color-primario); border: none; font-weight: 700;
+  box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.4); transition: all 0.2s;
+  &:hover { background-color: var(--color-primario-hover); transform: translateY(-2px); }
+  &:disabled { opacity: 0.7; transform: none; box-shadow: none; cursor: not-allowed; }
+}
+
+.alert-error {
+  margin-top: 2rem; padding: 1rem 1.5rem; border-radius: 12px;
+  background-color: #fef2f2; border: 1px solid #fecaca;
+  display: flex; align-items: center; gap: 1rem; color: #b91c1c; font-weight: 600;
+  .icon-error { color: #dc2626; svg { width: 24px; height: 24px; } }
+}
+
+/* =========================================
+   ESTADO 3: RESULTADO (LIMPIO Y PLANO)
+   ========================================= */
+.result-meta {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;
+
+  .code-badge {
+    background: #f1f5f9; padding: 0.5rem 1rem; border-radius: 8px;
+    display: flex; flex-direction: column;
+    .label { font-size: 0.65rem; text-transform: uppercase; color: #64748b; font-weight: 700; letter-spacing: 1px; }
+    .code { font-family: monospace; font-size: 1.2rem; color: var(--color-primario); font-weight: 700; letter-spacing: 1px; }
+  }
+  
+  .date-info { font-size: 0.9rem; color: #64748b; font-weight: 500; }
+}
+
+/* Caja de Estado Actual */
+.current-status-box {
+  padding: 1.5rem; border-radius: 16px; margin-bottom: 2.5rem;
+  display: flex; align-items: center; gap: 1.5rem;
+  
+  &.recibido { background-color: #eff6ff; color: #1e40af; .status-icon-large { background: #dbeafe; } }
+  &.en-proceso { background-color: #fff7ed; color: #9a3412; .status-icon-large { background: #ffedd5; } }
+  &.finalizado { background-color: #f0fdf4; color: #166534; .status-icon-large { background: #dcfce7; } }
+
+  .status-icon-large {
+    width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; svg { width: 32px; height: 32px; }
+  }
+
+  .status-texts {
+    .label { display: block; font-size: 0.85rem; text-transform: uppercase; font-weight: 700; opacity: 0.8; margin-bottom: 4px; }
+    h3 { margin: 0; font-size: 1.8rem; font-weight: 800; }
+  }
+}
+
+/* Timeline */
+.timeline-container {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 1rem; margin-bottom: 1.5rem; position: relative;
+}
+
+.step {
+  display: flex; flex-direction: column; align-items: center; gap: 8px; z-index: 2;
+  .dot {
+    width: 16px; height: 16px; border-radius: 50%; background-color: #cbd5e1;
+    border: 3px solid white; box-shadow: 0 0 0 2px #cbd5e1; transition: all 0.3s;
+  }
+  span { font-size: 0.85rem; color: #94a3b8; font-weight: 600; }
+  
+  &.active {
+    .dot { background-color: var(--color-primario); box-shadow: 0 0 0 2px var(--color-primario); }
+    span { color: var(--color-primario); }
+  }
+}
+
+.line {
+  flex-grow: 1; height: 2px; background-color: #e2e8f0; margin: 0 10px; margin-bottom: 24px;
+  &.active { background-color: var(--color-primario); }
+}
+
+.result-message {
+  text-align: center; color: #64748b; font-size: 1rem; line-height: 1.5;
+  margin-bottom: 2.5rem; padding: 0 1rem;
+}
+
+/* Botón Outline */
+.btn-outline {
+  width: 100%; padding: 1rem; background: transparent; border: 2px solid #e2e8f0;
+  color: #64748b; border-radius: 50px; font-weight: 700; cursor: pointer; transition: all 0.2s;
+  &:hover { border-color: var(--color-primario); color: var(--color-primario); background-color: white; }
+}
+
+/* --- UTILS --- */
+.loading-container { text-align: center; padding: 4rem 0; color: #64748b; font-weight: 500;}
+.spinner-grande { width: 50px; height: 50px; border: 4px solid #e2e8f0; border-top-color: var(--color-primario); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 1.5rem auto; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.anim-fade-in { animation: fadeInUp 0.5s ease-out; }
+.anim-slide-up { animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+
+/* =========================================
+   AJUSTES MOBILE ESPECÍFICOS
+   ========================================= */
+@media (max-width: 600px) {
+  .page-container { padding: 0 1rem; margin: 2rem auto; }
+
+  /* Header de Búsqueda */
+  .search-header { h2 { font-size: 1.4rem; } p { font-size: 0.95rem; } }
+
+  /* Input */
+  .input-wrapper-hero {
+    border-radius: 12px;
+    input { padding: 1rem 1rem 1rem 2.8rem; font-size: 1rem; }
+    .search-icon { left: 15px; svg { width: 20px; height: 20px; } }
+  }
+
+  /* Result Meta (Expediente + Fecha) - Centrado y Apilado */
+  .result-meta {
+    flex-direction: column; align-items: center; text-align: center; gap: 0.5rem;
+    .code-badge { width: 100%; text-align: center; }
+  }
+
+  /* Estado Actual Box */
+  .current-status-box {
+    flex-direction: column; text-align: center; gap: 1rem; padding: 1.2rem; margin-bottom: 2rem;
+    .status-texts h3 { font-size: 1.5rem; }
+  }
+
+  /* Timeline Compacto */
+  .timeline-container { padding: 0; margin-bottom: 1rem; }
+  .step {
+    gap: 6px;
+    .dot { width: 14px; height: 14px; border-width: 2px; }
+    span { font-size: 0.75rem; max-width: 60px; text-align: center; line-height: 1.1; }
+  }
+  .line { margin-bottom: 30px; margin-left: 5px; margin-right: 5px; }
+  
+  .result-message { font-size: 0.9rem; padding: 0; }
+}
