@@ -2,35 +2,35 @@
    SISTEMA DE DISEÑO - MARCA BLANCA (PLANTILLA)
    ========================================= */
 :root {
-  /* --- PALETA DINÁMICA (Esto es lo único que cambiás por cliente) --- */
+  /* --- PALETA DINÁMICA --- */
   
-  /* COLOR 1: Identidad Corporativa (NavBar, Títulos, Botones Serios) */
-  --brand-primary: #0f172a;       /* Ejemplo actual: Slate 900 */
+  /* COLOR 1: Identidad Corporativa (Slate 900) */
+  --brand-primary: #0f172a;       
   --brand-primary-hover: #1e293b; 
   
-  /* COLOR 2: Llamada a la acción (Botones de "Iniciar", Alertas, Detalles) */
-  /* Puede ser un color plano o un degradado */
-  --brand-accent: linear-gradient(90deg, #ff3131, #ff914d); 
-  --brand-accent-hover: linear-gradient(90deg, #d92727, #d97c3f);
+  /* COLOR 2: NUEVO GRADIENTE "DIGITAL BLUE" (Adiós Naranja) 
+     De Índigo a Cian -> Se ve muy moderno y tecnológico */
+  --brand-accent: linear-gradient(90deg, #4f46e5, #06b6d4); 
+  --brand-accent-hover: linear-gradient(90deg, #4338ca, #0891b2);
 
-  /* --- SISTEMA BASE (Colores funcionales que casi nunca se tocan) --- */
+  /* --- SISTEMA BASE --- */
   --color-exito: #059669;          /* Emerald */
   --color-error: #ef4444;          /* Red */
   --color-advertencia: #f59e0b;    /* Amber */
   --color-info: #3b82f6;           /* Blue */
 
   /* --- UI & FONDOS --- */
-  --ui-bg: #f8fafc;                /* Fondo general */
-  --ui-card: #ffffff;              /* Fondo tarjetas */
-  --ui-border: #e2e8f0;            /* Bordes suaves */
+  --ui-bg: #f8fafc;                
+  --ui-card: #ffffff;              
+  --ui-border: #e2e8f0;            
   
   /* --- TEXTOS --- */
-  --text-main: #334155;            /* Texto principal */
-  --text-muted: #64748b;           /* Texto secundario */
+  --text-main: #334155;            
+  --text-muted: #64748b;           
 
   /* --- TIPOGRAFÍA & FORMAS --- */
   --font-main: 'Outfit', sans-serif;
-  --radius-md: 12px;               /* Borde redondeado estándar */
+  --radius-md: 12px;               
   --shadow-card: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
@@ -52,9 +52,10 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* OJO ACÁ: Esto es lo que causaba el problema, pero lo arreglamos en el componente */
 h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
-  color: var(--brand-primary); /* ¡Toma el color de la marca! */
+  color: var(--brand-primary); 
   line-height: 1.2;
 }
 
