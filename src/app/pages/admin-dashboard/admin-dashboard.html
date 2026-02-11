@@ -1,28 +1,71 @@
-<div class="dashboard-container">
+<div class="dashboard-wrapper">
   
-  <header class="dashboard-header">
-    <div class="header-title">
-      <h1>Gestión de Trámites</h1>
-      <p class="subtitle">{{ reclamosFiltrados.length }} expedientes activos</p>
+  <header class="page-header">
+    <div class="header-content">
+      <div>
+        <h1 class="welcome-text">Panel General</h1>
+        <p class="date-text">Gestión de expedientes y trámites</p>
+      </div>
+      <button class="btn-refresh" (click)="cargarDatos()" [class.spinning]="loading">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" /></svg>
+        Actualizar
+      </button>
+    </div>
+  </header>
+
+  <section class="stats-grid">
+    <div class="stat-card total">
+      <div class="icon-wrapper">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>
+      </div>
+      <div class="stat-info">
+        <span class="label">Total Expedientes</span>
+        <span class="value">{{ reclamosOriginales.length }}</span>
+      </div>
     </div>
 
-    <div class="tools-bar">
+    <div class="stat-card new">
+      <div class="icon-wrapper">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+      </div>
+      <div class="stat-info">
+        <span class="label">Nuevos Ingresos</span>
+        <span class="value">{{ (reclamosOriginales | json).split('Recibido').length - 1 }}</span> 
+      </div>
+    </div>
+
+    <div class="stat-card process">
+      <div class="icon-wrapper">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+      </div>
+      <div class="stat-info">
+        <span class="label">En Proceso</span>
+        <span class="value">Activos</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="main-card">
+    
+    <div class="toolbar">
       
-      <div class="search-box">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        <input type="text" placeholder="Buscar por DNI o Apellido..." (input)="filtrarBusqueda($event)">
+      <div class="search-container">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" placeholder="Buscar cliente, DNI o código..." (input)="filtrarBusqueda($event)">
       </div>
 
-      <div class="filters-desktop">
+      <div class="filters-group">
         
-        <div class="status-pills">
-          <button class="pill" [class.active]="filtroEstado === ''" (click)="cambiarEstado('')">Todos</button>
-          <button class="pill" [class.active]="filtroEstado === 'Recibido'" (click)="cambiarEstado('Recibido')">Nuevos</button>
-          <button class="pill" [class.active]="filtroEstado === 'En Proceso'" (click)="cambiarEstado('En Proceso')">En Curso</button>
-          <button class="pill" [class.active]="filtroEstado === 'Finalizado'" (click)="cambiarEstado('Finalizado')">Cerrados</button>
+        <div class="tabs-group">
+          <button class="tab" [class.active]="filtroEstado === ''" (click)="cambiarEstado('')">Todos</button>
+          <button class="tab" [class.active]="filtroEstado === 'Recibido'" (click)="cambiarEstado('Recibido')">Nuevos</button>
+          <button class="tab" [class.active]="filtroEstado === 'En Proceso'" (click)="cambiarEstado('En Proceso')">En Curso</button>
+          <button class="tab" [class.active]="filtroEstado === 'Finalizado'" (click)="cambiarEstado('Finalizado')">Cerrados</button>
         </div>
 
-        <div class="custom-select">
+        <div class="separator"></div>
+
+        <div class="select-wrapper">
           <select (change)="cambiarTipo($event)">
             <option value="">Todos los Tipos</option>
             <option value="Revoca">⚠️ Revocaciones</option>
@@ -30,95 +73,87 @@
             <option value="Medico">Médicos</option>
             <option value="Incapacidad">Incapacidad</option>
           </select>
-          <svg class="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </div>
-
       </div>
     </div>
-  </header>
 
-  <div class="table-card" *ngIf="!loading; else loadingTemplate">
-    
-    <div class="table-responsive" *ngIf="reclamosFiltrados.length > 0; else emptyState">
-      <table class="data-table">
+    <div class="table-container" *ngIf="!loading; else loadingTemplate">
+      
+      <table class="premium-table" *ngIf="reclamosFiltrados.length > 0; else emptyState">
         <thead>
           <tr>
-            <th class="col-code">Ref.</th>
-            <th class="col-client">Cliente</th>
-            <th class="col-type">Tipo de Trámite</th>
-            <th class="col-date">Ingreso</th>
-            <th class="col-status">Estado</th>
-            <th class="col-actions"></th>
+            <th>Expediente</th>
+            <th>Cliente</th>
+            <th>Trámite</th>
+            <th>Ingreso</th>
+            <th>Estado</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let reclamo of reclamosFiltrados" [class.row-alert]="reclamo.path_revoca_patrocinio">
+          <tr *ngFor="let reclamo of reclamosFiltrados" [class.row-highlight]="reclamo.path_revoca_patrocinio">
             
-            <td class="col-code">
-              <span class="code-badge">#{{ reclamo.codigo_seguimiento }}</span>
+            <td class="font-mono">
+              <span class="ref-badge">#{{ reclamo.codigo_seguimiento }}</span>
             </td>
 
-            <td class="col-client">
-              <div class="client-profile">
-                <div class="avatar">{{ getIniciales(reclamo.nombre) }}</div>
-                <div class="info">
+            <td>
+              <div class="user-cell">
+                <div class="avatar-circle">{{ getIniciales(reclamo.nombre) }}</div>
+                <div class="user-data">
                   <span class="name">{{ reclamo.nombre }}</span>
-                  <span class="meta">DNI: {{ reclamo.dni }}</span>
+                  <span class="dni">{{ reclamo.dni }}</span>
                 </div>
               </div>
             </td>
 
-            <td class="col-type">
-              <div class="type-info">
-                <span class="main-type">{{ reclamo.tipo_tramite }}</span>
-                <span class="sub-type" *ngIf="reclamo.subtipo_tramite">{{ reclamo.subtipo_tramite }}</span>
-                
-                <span *ngIf="reclamo.path_revoca_patrocinio" class="badge-alert">
-                  REVOCACIÓN
-                </span>
+            <td>
+              <div class="tramite-cell">
+                <span class="main-text">{{ reclamo.tipo_tramite }}</span>
+                <span class="sub-text" *ngIf="reclamo.subtipo_tramite">{{ reclamo.subtipo_tramite }}</span>
+                <span *ngIf="reclamo.path_revoca_patrocinio" class="tag-alert">REVOCA PATROCINIO</span>
               </div>
             </td>
 
-            <td class="col-date">
-              <span class="date">{{ reclamo.fecha_creacion | date:'dd MMM yyyy' }}</span>
-              <span class="time">{{ reclamo.fecha_creacion | date:'HH:mm' }} hs</span>
+            <td>
+              <div class="date-cell">
+                <span class="date">{{ reclamo.fecha_creacion | date:'dd MMM yyyy' }}</span>
+                <span class="time">{{ reclamo.fecha_creacion | date:'HH:mm' }}</span>
+              </div>
             </td>
 
-            <td class="col-status">
-              <span class="status-badge" [ngClass]="getClassEstado(reclamo.estado)">
-                <span class="dot"></span> {{ reclamo.estado }}
+            <td>
+              <span class="status-indicator" [ngClass]="getClassEstado(reclamo.estado)">
+                {{ reclamo.estado }}
               </span>
             </td>
 
-            <td class="col-actions">
-              <button class="btn-action" (click)="abrirModal(reclamo)" title="Ver Expediente">
+            <td class="text-right">
+              <button class="btn-manage" (click)="abrirModal(reclamo)">
                 Gestionar
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
               </button>
             </td>
-
           </tr>
         </tbody>
       </table>
+
     </div>
 
     <ng-template #emptyState>
-      <div class="empty-state">
-        <div class="icon-box">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>
+      <div class="empty-placeholder">
+        <div class="icon-circle">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
         </div>
-        <h3>Sin expedientes</h3>
-        <p>No hay trámites que coincidan con los filtros aplicados.</p>
-        <button class="btn-reset" (click)="resetFiltros()">Limpiar Filtros</button>
+        <h3>No se encontraron resultados</h3>
+        <p>Intentá ajustar los filtros o la búsqueda.</p>
+        <button (click)="resetFiltros()" class="btn-reset">Limpiar todo</button>
       </div>
     </ng-template>
-
   </div>
 
   <ng-template #loadingTemplate>
-    <div class="loading-state">
+    <div class="loading-overlay">
       <div class="spinner"></div>
-      <p>Sincronizando expedientes...</p>
     </div>
   </ng-template>
 
