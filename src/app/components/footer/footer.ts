@@ -1,15 +1,22 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [RouterModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './footer.html',
-  styleUrl: './footer.scss'
+  styleUrls: ['./footer.scss']
 })
 export class FooterComponent {
-  brand = environment.branding;
+  // Leemos la marca del environment, o ponemos defaults
+  brand = environment.branding || { 
+    nombre: 'Estudio Jurídico', 
+    email: 'contacto@estudio.com',
+    whatsapp: '' 
+  };
+  
   year = new Date().getFullYear();
 }

@@ -1,11 +1,10 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3000', // O tu URL de Render para desarrollo
-  
-  // 🎨 CONFIGURACIÓN MARCA BLANCA (WHITELABEL)
+  apiUrl: 'http://localhost:3000', // O tu URL local
   branding: {
-    nombre: 'Estudio Jurídico Digital',  // Nombre genérico para vender
-    // logo: '/assets/logo-placeholder.png', // Ya no lo usamos, usamos texto
-    tituloWeb: 'Soluciones Legales Ágiles'
+    nombre: 'Estudio Jurídico',
+    tituloWeb: 'Portal Administrativo',
+    email: 'consultas@estudio.com',  // <--- AGREGAR
+    whatsapp: '5491112345678'        // <--- AGREGAR (Sin + ni espacios)
   }
 };

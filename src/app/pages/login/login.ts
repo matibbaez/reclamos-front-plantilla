@@ -50,7 +50,8 @@ export class LoginComponent {
         if (response.access_token) {
           localStorage.setItem('access_token', response.access_token);
           this.notificacionService.showSuccess(`Bienvenido a ${this.brand.nombre}`);
-          this.router.navigate(['/admin/dashboard']); 
+          
+          this.router.navigate(['/admin-dashboard']); 
         }
       },
       error: (error: HttpErrorResponse) => {

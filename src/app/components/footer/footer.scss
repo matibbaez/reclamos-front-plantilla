@@ -1,107 +1,168 @@
-/* Usamos las variables globales */
+/* =========================================
+   VARIABLES LOCALES
+   ========================================= */
+:host {
+  --footer-bg: #0f172a;       /* Slate 900 (Fondo Oscuro Premium) */
+  --footer-text: #94a3b8;     /* Slate 400 (Texto secundario) */
+  --footer-title: #ffffff;    /* Blanco (Títulos) */
+  --footer-accent: #3b82f6;   /* Blue 500 (Hover y detalles) */
+  --footer-border: #1e293b;   /* Slate 800 (Líneas sutiles) */
+}
+
 .site-footer {
-  background-color: var(--brand-primary); /* Color de Marca */
-  color: rgba(255, 255, 255, 0.8);
+  background-color: var(--footer-bg);
+  color: var(--footer-text);
+  font-family: 'Inter', system-ui, sans-serif;
   padding-top: 4rem;
+  margin-top: auto; /* Empuja el footer al fondo si hay poco contenido */
+  border-top: 1px solid var(--footer-border);
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem 4rem 2rem;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr; /* Marca ancha, links compactos */
+  gap: 4rem;
+
+  @media(max-width: 900px) {
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
   
-  /* Borde Superior con el color de Acento */
-  border-top: 4px solid transparent;
-  border-image: var(--brand-accent) 1;
+  @media(max-width: 600px) {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
 }
 
-.footer-container {
-  max-width: 1100px; margin: 0 auto; padding: 0 2rem;
-  display: grid; grid-template-columns: 2fr 1fr 1.5fr; 
-  gap: 4rem; padding-bottom: 3rem;
+/* --- COLUMNA 1: MARCA --- */
+.footer-brand-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  @media(max-width: 600px) { align-items: center; }
 }
 
-/* --- LOGO TIPOGRÁFICO --- */
-.footer-logo { margin-bottom: 1.5rem; }
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--footer-title);
+  
+  .logo-icon {
+    width: 40px; height: 40px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--footer-accent);
+    svg { width: 24px; height: 24px; }
+  }
 
-.footer-logo-link {
-  display: inline-block; text-decoration: none;
-  opacity: 1; transition: opacity 0.3s;
-  &:hover { opacity: 0.8; }
+  .brand-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
 }
 
-/* Estilo del texto "LOGO" */
-.footer-brand-text {
-  font-family: var(--font-main);
-  font-size: 1.8rem; /* Un poco más grande que en el navbar */
-  font-weight: 800;
-  color: white;
-  letter-spacing: -0.5px;
+.brand-tagline {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  max-width: 350px;
+  color: var(--footer-text);
+}
+
+/* --- COLUMNAS LINKS --- */
+h4 {
+  color: var(--footer-title);
+  font-size: 0.9rem;
+  font-weight: 700;
   text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1.5rem;
 }
 
-.brand-desc {
-  font-size: 0.95rem; line-height: 1.6; max-width: 300px;
-  color: rgba(255, 255, 255, 0.6);
-}
+nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 
-/* --- COLUMNAS LINKS & CONTACTO --- */
-.footer-links-col {
-  h4 {
-    color: white; font-size: 1rem; font-weight: 700;
-    margin-bottom: 1.5rem; text-transform: uppercase;
-    letter-spacing: 1px; position: relative;
+  .footer-link {
+    text-decoration: none;
+    color: var(--footer-text);
+    font-size: 0.95rem;
+    transition: all 0.2s;
     
-    /* Línea decorativa con el color de acento */
-    &::after {
-      content: ''; position: absolute; bottom: -8px; left: 0;
-      width: 40px; height: 3px;
-      background: var(--brand-accent);
-      border-radius: 2px;
+    &:hover {
+      color: var(--footer-accent);
+      transform: translateX(4px);
     }
-  }
 
-  ul {
-    list-style: none; padding: 0;
-    li {
-      margin-bottom: 0.8rem;
-      a {
-        text-decoration: none; color: rgba(255, 255, 255, 0.7);
-        font-size: 0.95rem; transition: all 0.2s ease;
-        &:hover {
-          color: white; padding-left: 5px; 
-          /* Usamos opacity o filtro en vez de color fijo para el hover */
-          text-shadow: 0 0 10px rgba(255,255,255,0.5);
-        }
-      }
+    &.highlight {
+      color: white;
+      font-weight: 500;
+      margin-top: 0.5rem;
     }
   }
 }
 
-.contact-list li {
-  display: flex; align-items: center; gap: 0.75rem;
-  color: rgba(255, 255, 255, 0.7); font-size: 0.95rem;
-  
-  .icon {
-    width: 20px; height: 20px;
-    color: white; /* Iconos blancos quedan más elegantes sobre fondo oscuro */
-    /* Opcional: si querés que sean del color de acento: */
-    /* color: transparent; fill: url(#gradient) ... es complejo con SVG */
-    /* Mejor usamos opacidad si queremos destacar */
-    opacity: 0.8;
-    flex-shrink: 0;
+/* --- COLUMNA CONTACTO --- */
+.contact-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  li {
+    display: flex;
+    align-items: center;
+    @media(max-width: 600px) { justify-content: center; }
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--footer-text);
+    font-size: 0.95rem;
+    transition: color 0.2s;
+
+    svg { width: 18px; height: 18px; color: var(--footer-accent); }
+    
+    &:hover { color: white; }
   }
 }
 
 /* --- BARRA FINAL --- */
-.footer-bottom {
-  background-color: rgba(0, 0, 0, 0.2);
-  padding: 1.5rem 0; font-size: 0.85rem;
+.footer-bar {
+  background: rgba(0,0,0,0.2);
+  border-top: 1px solid var(--footer-border);
+  padding: 1.5rem 0;
+  font-size: 0.85rem;
 }
 
-.bottom-container {
-  max-width: 1100px; margin: 0 auto; padding: 0 2rem;
-  display: flex; justify-content: space-between; align-items: center;
-  p { margin: 0; }
-  .dev-name { color: white; font-weight: 600; opacity: 0.9; }
-}
+.bar-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #64748b;
 
-/* --- RESPONSIVE --- */
-@media (max-width: 768px) {
-  .footer-container { grid-template-columns: 1fr; gap: 2.5rem; }
-  .bottom-container { flex-direction: column; gap: 1rem; text-align: center; }
+  @media(max-width: 600px) {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .credits strong {
+    color: #cbd5e1;
+    font-weight: 600;
+  }
 }
