@@ -4,7 +4,7 @@ import { ReclamosService } from '../../services/reclamos.service';
 import { CardComponent } from '../../components/card/card';
 import { GestionarReclamoModalComponent } from '../../components/gestionar-reclamo-modal/gestionar-reclamo-modal';
 
-// Interfaz completa con todos los campos nuevos
+// Interfaz completa
 export interface IReclamo {
   id: string;
   nombre: string;
@@ -51,36 +51,63 @@ export class AdminDashboardComponent implements OnInit {
   ordenDescendente = true;
   reclamosOriginales: IReclamo[] = []; 
   reclamosFiltrados: IReclamo[] = [];   
-  loading = true;
+  
+  // ESTADOS DE CARGA (Separados para mejor UX)
+  loading = true;       // Carga inicial (Pantalla completa / Tabla)
+  isRefreshing = false; // Carga manual (Solo el botón gira)
 
   // Variables de Filtro
   filtroEstado: string = ''; // '' = Todos
   filtroTipo: string = '';   // '' = Todos
+  filtrosAbiertos = false;
 
   // Variables Modal
   reclamoSeleccionado: IReclamo | null = null;
   actualizandoId: string | null = null;
-  filtrosAbiertos = false;
 
   ngOnInit() {
-    this.cargarDatos();
+    // Carga inicial: Bloqueamos la tabla con el spinner grande
+    this.cargarDatos(false);
   }
 
-  // 1. Carga desde Backend (Filtra por ESTADO)
-  cargarDatos() {
-    this.loading = true;
+  // =========================================================
+  //  LÓGICA DE CARGA DE DATOS (MEJORADA)
+  // =========================================================
+
+  // Se llama desde el botón "Actualizar" del HTML
+  actualizarManual() {
+    this.isRefreshing = true; // Activamos solo el giro del botón
+    this.cargarDatos(true);
+  }
+
+  // Función principal unificada
+  cargarDatos(esRefreshManual: boolean = false) {
+    
+    // Si NO es manual (es la primera carga o cambio de filtro), mostramos loading general
+    if (!esRefreshManual) {
+      this.loading = true;
+    }
+
     this.reclamosService.findAll(this.filtroEstado).subscribe({
       next: (data) => {
         this.reclamosOriginales = data as IReclamo[];
-        this.aplicarFiltrosLocales(); // Aplicamos el filtro de tipo y orden
+        this.aplicarFiltrosLocales(); // Re-aplicar orden y filtros de tipo
+        
+        // Apagamos ambos estados de carga
         this.loading = false;
+        this.isRefreshing = false;
       },
       error: (err) => {
         console.error('Error cargando reclamos', err);
         this.loading = false;
+        this.isRefreshing = false;
       }
     });
   }
+
+  // =========================================================
+  //  FILTROS Y ORDENAMIENTO
+  // =========================================================
 
   alternarOrden() {
     this.ordenDescendente = !this.ordenDescendente;
@@ -91,7 +118,6 @@ export class AdminDashboardComponent implements OnInit {
     this.filtrosAbiertos = !this.filtrosAbiertos;
   }
 
-  // 2. Filtro Local (Filtra por TIPO y Ordena)
   aplicarFiltrosLocales() {
     let resultado = [];
 
@@ -102,7 +128,6 @@ export class AdminDashboardComponent implements OnInit {
       if (this.filtroTipo === 'Revoca') {
         resultado = this.reclamosOriginales.filter(r => !!r.path_revoca_patrocinio);
       } else if (this.filtroTipo === 'Rechazo') {
-        // Asumiendo que 'Rechazo' es un tipo_tramite o subtipo
         resultado = this.reclamosOriginales.filter(r => r.tipo_tramite === 'Rechazo' || r.subtipo_tramite === 'Rechazo');
       } else {
         resultado = this.reclamosOriginales.filter(r => r.tipo_tramite === this.filtroTipo);
@@ -125,7 +150,8 @@ export class AdminDashboardComponent implements OnInit {
   // Eventos de UI Filtros
   cambiarEstado(nuevoEstado: string) {
     this.filtroEstado = nuevoEstado;
-    this.cargarDatos(); 
+    // Al cambiar estado, hacemos una carga "general" (loading = true)
+    this.cargarDatos(false); 
   }
 
   cambiarTipo(event: any) {
@@ -134,10 +160,9 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   // =========================================================
-  //  NUEVAS FUNCIONES (PARA CORREGIR LOS ERRORES DEL HTML)
+  //  HELPERS VISUALES (HTML)
   // =========================================================
 
-  // 1. Generar iniciales para el Avatar (Ej: "Matias Baez" -> "MB")
   getIniciales(nombreCompleto: string): string {
     if (!nombreCompleto) return 'NN';
     const partes = nombreCompleto.trim().split(' ');
@@ -145,23 +170,20 @@ export class AdminDashboardComponent implements OnInit {
     return (partes[0][0] + partes[1][0]).toUpperCase();
   }
 
-  // 2. Convertir estado a clase CSS (Ej: "En Proceso" -> "en-proceso")
   getClassEstado(estado: string): string {
     if (!estado) return '';
     return estado.toLowerCase().replace(/\s+/g, '-');
   }
 
-  // 3. Buscador en tiempo real
+  // Buscador en tiempo real
   filtrarBusqueda(event: any) {
     const texto = event.target.value.toLowerCase();
 
-    // Si borran el texto, volvemos a los filtros originales
     if (!texto) {
       this.aplicarFiltrosLocales();
       return;
     }
     
-    // Buscamos sobre los originales
     this.reclamosFiltrados = this.reclamosOriginales.filter(r => 
       r.nombre.toLowerCase().includes(texto) || 
       r.dni.includes(texto) ||
@@ -169,21 +191,16 @@ export class AdminDashboardComponent implements OnInit {
     );
   }
 
-  // 4. Botón "Limpiar Filtros" del Empty State
   resetFiltros() {
     this.filtroEstado = '';
     this.filtroTipo = '';
-    
-    // Limpiamos visualmente el input search si pudiéramos acceder al DOM, 
-    // pero por ahora recargamos los datos que es lo importante.
-    this.cargarDatos(); 
+    this.cargarDatos(false); 
   }
 
   // =========================================================
-  //  FIN NUEVAS FUNCIONES
+  //  MODAL
   // =========================================================
 
-  // Modal Logica
   abrirModal(reclamo: IReclamo) {
     this.reclamoSeleccionado = reclamo;
   }
@@ -193,23 +210,20 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   guardarCambiosModal(nuevoEstado: any) {
-    // Nota: nuevoEstado viene del evento 'save' del modal.
-    // Si tu modal emite un objeto { estado: '...' }, ajusta aquí.
-    // Asumimos que emite el string directo o un objeto compatible.
-    
     if (!this.reclamoSeleccionado) return;
     
     const id = this.reclamoSeleccionado.id;
     this.actualizandoId = id;
     this.cerrarModal(); 
     
-    // Asumiendo que nuevoEstado es el string 'Recibido' | 'En Proceso' | 'Finalizado'
     const estadoFinal = typeof nuevoEstado === 'string' ? nuevoEstado : nuevoEstado.estado;
 
     this.reclamosService.update(id, { estado: estadoFinal }).subscribe({
       next: () => {
         this.actualizandoId = null;
-        this.cargarDatos(); 
+        // Al guardar, refrescamos la tabla sin bloquearla entera si querés, 
+        // o bloqueando. Aquí usamos refresh manual para que sea sutil.
+        this.cargarDatos(true); 
       },
       error: (err) => {
         console.error('Error actualizando', err);
