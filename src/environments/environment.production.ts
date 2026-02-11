@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://estudio-api-yq5z.onrender.com', // Tu URL de Render
+  apiUrl: 'https://reclamos-back-plantilla.onrender.com', // Tu URL de Render
 
   // 🎨 CONFIGURACIÓN MARCA BLANCA (WHITELABEL) - ¡ESTO FALTABA!
   branding: {
