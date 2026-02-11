@@ -6,7 +6,7 @@
   --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.05);
   --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.08);
   --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1);
-  --shadow-glow: 0 20px 50px -10px rgba(79, 70, 229, 0.25); /* Glow ajustado al nuevo azul */
+  --shadow-glow: 0 20px 50px -10px rgba(79, 70, 229, 0.25);
 }
 
 .landing-page { width: 100%; overflow-x: hidden; }
@@ -22,15 +22,22 @@
 .delay-200 { animation-delay: 0.2s; }
 
 /* =========================================
-   1. HERO SECTION (Curva & Premium)
+   1. HERO SECTION (Corrección Mobile Aplicada)
    ========================================= */
 .hero-section {
   position: relative;
   background-color: var(--brand-primary);
   border-radius: 0 0 60px 60px; 
-  padding: 8rem 0 10rem; 
+  padding: 8rem 0 10rem; /* Desktop Default */
   color: white;
   overflow: hidden;
+
+  /* --- CORRECCIÓN MOBILE TOP --- */
+  @media (max-width: 768px) {
+    padding-top: 8rem; /* <-- AUMENTADO PARA SEPARAR DEL NAVBAR */
+    padding-bottom: 6rem;
+    border-radius: 0 0 40px 40px;
+  }
 
   /* Fondo abstracto */
   .hero-bg-pattern {
@@ -43,7 +50,7 @@
   &::after {
     content: ''; position: absolute; top: -20%; right: -10%;
     width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(6, 182, 212, 0.15) 0%, transparent 70%); /* Luz Cian */
+    background: radial-gradient(circle, rgba(6, 182, 212, 0.15) 0%, transparent 70%);
     filter: blur(80px); pointer-events: none;
   }
 }
@@ -62,7 +69,7 @@
   display: inline-flex; align-items: center; gap: 0.5rem;
   background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
   padding: 0.4rem 1rem; border-radius: 50px;
-  font-size: 0.85rem; font-weight: 600; color: #38bdf8; /* Celeste claro */
+  font-size: 0.85rem; font-weight: 600; color: #38bdf8;
   margin-bottom: 1.5rem; backdrop-filter: blur(4px);
   
   .dot { width: 8px; height: 8px; background: #38bdf8; border-radius: 50%; box-shadow: 0 0 10px #38bdf8; }
@@ -71,16 +78,14 @@
 /* Títulos y Texto */
 .hero-text-col {
   
-  /* AQUÍ ESTÁ EL ARREGLO DEL TEXTO INVISIBLE */
   h1 {
     font-size: 3.5rem; 
     line-height: 1.1; 
     margin-bottom: 1.5rem; 
     letter-spacing: -1px;
-    color: white !important; /* Forzamos blanco sobre el fondo oscuro */
+    color: white !important;
     
     .text-gradient {
-      /* Gradiente de texto: Blanco a Cian */
       background: linear-gradient(90deg, #ffffff, #67e8f9);
       -webkit-background-clip: text; 
       -webkit-text-fill-color: transparent;
@@ -98,14 +103,34 @@
 
 .hero-actions {
   display: flex; gap: 1rem; align-items: center;
+  margin-top: 1rem;
+
   @media (max-width: 900px) { justify-content: center; flex-direction: column; width: 100%; }
   
+  /* --- BOTÓN PRINCIPAL CORREGIDO --- */
   .btn-lg {
-    padding: 1rem 2rem; font-size: 1.1rem; border-radius: 100px;
-    box-shadow: 0 10px 20px -5px rgba(6, 182, 212, 0.4); /* Sombra Cian */
-    svg { width: 22px; height: 22px; }
+    background-color: white; /* FONDO BLANCO (Contraste total) */
+    color: var(--brand-primary); /* TEXTO OSCURO (Tu azul) */
+    
+    padding: 1rem 2.5rem; 
+    font-size: 1.1rem; 
+    border-radius: 100px;
+    text-decoration: none; 
+    font-weight: 800; /* Letra bien gruesa */
+    
+    /* Sombra blanca sutil para que brille */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 0 0 4px rgba(255, 255, 255, 0.1); 
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-3px);
+      background-color: #f8fafc;
+      /* Glow blanco intenso al pasar el mouse */
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 0 20px rgba(255, 255, 255, 0.4); 
+    }
   }
 
+  /* El enlace secundario se mantiene igual */
   .btn-link-light {
     color: white; font-weight: 600; font-size: 1rem; padding: 0.8rem 1.5rem;
     display: flex; align-items: center; gap: 0.5rem; text-decoration: none;
@@ -114,7 +139,6 @@
     .arrow { transition: transform 0.2s; }
   }
 }
-
 /* Elemento Visual Flotante */
 .hero-visual-col {
   position: relative; display: flex; justify-content: center;
@@ -153,20 +177,19 @@
     }
   }
   
-  /* Luz de fondo */
   .glow-effect {
     position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
     width: 300px; height: 300px; 
-    background: var(--brand-accent); /* Usa el nuevo gradiente azul */
+    background: var(--brand-accent);
     filter: blur(120px); opacity: 0.4; z-index: -1;
   }
 }
 
 /* =========================================
-   2. TRUST BAR FLOTANTE (Glassmorphism)
+   2. TRUST BAR
    ========================================= */
 .trust-bar-wrapper {
-  margin-top: -4rem; /* Sube para superponerse al Hero */
+  margin-top: -4rem; 
   position: relative; z-index: 10; padding: 0 1.5rem;
 }
 
@@ -188,7 +211,6 @@
   display: flex; flex-direction: column; align-items: center;
   .number {
     font-size: 2.2rem; font-weight: 800; color: var(--brand-primary);
-    /* Gradiente sutil en el texto de los números */
     background: var(--brand-accent);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   }
@@ -202,7 +224,7 @@
    ========================================= */
 .services-section {
   padding: 6rem 0;
-  background-color: var(--ui-bg);
+  background-color: var(--bg-body, #f8fafc);
 }
 
 .section-header {
@@ -242,10 +264,9 @@
     svg { width: 32px; height: 32px; }
   }
 
-  h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.8rem; color: var(--text-main); }
+  h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.8rem; color: var(--text-main, #0f172a); }
   p { font-size: 1rem; color: var(--text-muted); line-height: 1.6; }
   
-  /* Indicador decorativo al hover */
   .hover-indicator {
     position: absolute; bottom: 0; left: 0; width: 100%; height: 4px;
     background: var(--brand-accent); opacity: 0; transition: opacity 0.3s;
@@ -254,21 +275,21 @@
 }
 
 /* =========================================
-   4. CTA BANNER (Moderno)
+   4. CTA BANNER
    ========================================= */
 .cta-section {
   padding: 0 1.5rem 6rem;
+  background-color: var(--bg-body, #f8fafc);
 }
 
 .cta-card {
-  background: var(--brand-accent); /* Toma el nuevo gradiente azul */
+  background: var(--brand-accent);
   border-radius: 30px;
   padding: 4rem;
   display: flex; justify-content: space-between; align-items: center;
   color: white; box-shadow: var(--shadow-glow);
   position: relative; overflow: hidden;
 
-  /* Decoración */
   &::before {
     content: ''; position: absolute; top: -50%; left: -10%; width: 400px; height: 400px;
     background: rgba(255,255,255,0.1); border-radius: 50%;
@@ -287,7 +308,7 @@
 
 .btn-white {
   background: white; 
-  color: #4f46e5; /* Color índigo del gradiente para el texto */
+  color: #4f46e5;
   font-weight: 700; padding: 1rem 2rem;
   border-radius: 50px; text-decoration: none; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
   transition: transform 0.2s;
@@ -295,11 +316,11 @@
 }
 
 /* =========================================
-   5. FAQ (Tarjetas individuales)
+   5. FAQ
    ========================================= */
 .faq-section {
   padding-bottom: 6rem;
-  background-color: var(--ui-bg);
+  background-color: var(--bg-body, #f8fafc);
 }
 
 .faq-grid {
@@ -307,11 +328,11 @@
 }
 
 .faq-item {
-  background: white; border: 1px solid var(--border-color);
+  background: white; border: 1px solid #e2e8f0;
   border-radius: 16px; overflow: hidden; transition: all 0.3s ease;
   
   &.open {
-    border-color: #06b6d4; /* Color cian al abrir */
+    border-color: #06b6d4;
     box-shadow: var(--shadow-md);
     .faq-answer { max-height: 200px; padding-bottom: 1.5rem; opacity: 1; }
     .icon-toggle { transform: rotate(45deg); background: var(--brand-accent); color: white; }
@@ -322,7 +343,7 @@
   width: 100%; display: flex; justify-content: space-between; align-items: center;
   padding: 1.5rem; background: none; border: none; cursor: pointer; text-align: left;
   
-  .question-text { font-size: 1.1rem; font-weight: 600; color: var(--text-main); }
+  .question-text { font-size: 1.1rem; font-weight: 600; color: var(--text-main, #0f172a); }
   
   .icon-toggle {
     width: 32px; height: 32px; border-radius: 50%; background: #f1f5f9;

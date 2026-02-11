@@ -319,3 +319,157 @@
   .filters-group { flex-direction: column; align-items: stretch; }
   .tabs-group { overflow-x: auto; }
 }
+
+/* =========================================
+   MEDIA QUERIES (RESPONSIVE)
+   ========================================= */
+
+/* --- 1. NOTEBOOKS Y TABLETS (Hasta 1024px) --- */
+@media (max-width: 1024px) {
+  .dashboard-wrapper {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  /* Ajustamos la grilla de KPIs para que no queden huecos */
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas forzadas */
+    gap: 1rem;
+  }
+  
+  /* Tabla con scroll horizontal suave */
+  .table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* --- 2. CELULARES (Hasta 768px) --- */
+@media (max-width: 768px) {
+  
+  .dashboard-wrapper {
+    padding-top: 6rem; /* Menos aire arriba */
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 5rem; /* Espacio para el footer si es fixed */
+  }
+
+  /* Header más compacto */
+  .page-header {
+    margin-bottom: 1.5rem;
+    .header-content {
+      align-items: flex-start;
+      flex-direction: column; 
+      gap: 1rem;
+    }
+    .btn-refresh {
+      width: 100%;
+      justify-content: center;
+      padding: 0.8rem; /* Botón más "toca-ble" */
+    }
+  }
+
+  /* KPIs uno debajo del otro */
+  .stats-grid {
+    grid-template-columns: 1fr; /* 1 sola columna */
+    gap: 1rem;
+  }
+
+  /* Toolbar (Filtros) vertical */
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .filters-group {
+    flex-direction: column;
+    width: 100%;
+    
+    .tabs-group {
+      width: 100%;
+      overflow-x: auto; /* Scroll horizontal en las pestañas */
+      white-space: nowrap;
+      padding-bottom: 4px; /* Espacio para la barra de scroll si aparece */
+      
+      .tab { flex: 0 0 auto; } /* Para que no se achiquen */
+    }
+    
+    .separator { display: none; } /* Ocultamos el palito separador */
+    
+    .select-wrapper { width: 100%; select { width: 100%; } }
+  }
+
+  /* --- LA MAGIA: TABLA -> TARJETAS --- */
+  /* Transformamos la tabla en bloques para leer fácil en celular */
+  .premium-table {
+    display: block;
+
+    thead { display: none; } /* Ocultamos los encabezados de tabla */
+
+    tbody { display: block; }
+
+    tr {
+      display: flex;
+      flex-direction: column;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      box-shadow: var(--shadow-card);
+      position: relative;
+    }
+
+    td {
+      display: block;
+      padding: 0.25rem 0;
+      border: none;
+      text-align: left;
+      
+      &:last-child { 
+        border-bottom: none; 
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--border);
+      }
+    }
+
+    /* Ajustes específicos de celdas en modo tarjeta */
+    .user-cell {
+      margin-bottom: 0.5rem;
+    }
+
+    .tramite-cell {
+      flex-direction: row;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .status-indicator {
+      display: inline-block;
+      margin-top: 0.5rem;
+    }
+
+    /* El botón Gestionar ocupa todo el ancho */
+    .btn-manage {
+      width: 100%;
+      justify-content: center;
+      background-color: var(--primary); /* Lo hacemos más visible */
+      color: white;
+      padding: 0.8rem;
+    }
+    
+    /* Posicionamos la fecha absoluta arriba a la derecha */
+    .date-cell {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      text-align: right;
+      
+      .time { display: none; } /* Ocultamos la hora para limpiar */
+    }
+  }
+}

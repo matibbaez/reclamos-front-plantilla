@@ -235,3 +235,83 @@
   .sheet-tabs { gap: 1rem; }
   .info-grid { grid-template-columns: 1fr; }
 }
+
+/* =========================================
+   MEDIA QUERIES (MOBILE MODAL)
+   ========================================= */
+
+@media (max-width: 768px) {
+  
+  :host {
+    align-items: flex-end; /* Alineamos al fondo */
+  }
+
+  .modal-sheet {
+    width: 100%;
+    height: 92vh; /* Casi toda la pantalla, dejando ver un poquito del fondo arriba */
+    max-height: none;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    animation: slideUpMobile 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .sheet-header {
+    .header-top { padding: 1rem; }
+    
+    .title { font-size: 1.1rem; }
+    .subtitle { font-size: 0.85rem; }
+    
+    /* Tabs scrolleables si no entran */
+    .sheet-tabs {
+      padding: 0 1rem;
+      gap: 1rem;
+      overflow-x: auto;
+      
+      .tab-link {
+        padding-bottom: 0.8rem;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+    }
+  }
+
+  .sheet-body {
+    padding: 1rem; /* Menos padding en mobile */
+  }
+
+  /* Grid de información en 1 columna */
+  .info-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  /* Archivos uno abajo del otro */
+  .files-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Footer fijo y botones grandes */
+  .sheet-footer {
+    padding: 1rem;
+    flex-direction: column-reverse; /* Cancelar abajo, Guardar arriba */
+    gap: 0.8rem;
+    
+    .btn-save, .btn-cancel {
+      width: 100%;
+      padding: 1rem; /* Botones gorditos para el dedo */
+      font-size: 1rem;
+    }
+    
+    .btn-cancel {
+      border: none;
+      color: var(--text-muted);
+    }
+  }
+}
+
+@keyframes slideUpMobile {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
